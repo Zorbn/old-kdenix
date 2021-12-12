@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, callPackage, ... }:
 
 {
@@ -28,26 +24,19 @@
   networking.interfaces.enp4s0.useDHCP = true;
   networking.interfaces.wlp3s0.useDHCP = true;
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
 
-  # Set this to highest refresh rate monitor
-  # TODO: Investigate force composition pipeline
-  # TODO: Allow flipping = false?
   environment.sessionVariables = rec {
-    __GL_SYNC_DISPLAY_DEVICE = "DP-0";
+    __GL_SYNC_DISPLAY_DEVICE = "DP-0"; # Set this to highest refresh rate monitor
     KWIN_X11_REFRESH_RATE = "144000";
     KWIN_X11_NO_SYNC_TO_VBLANK = "1";
     KWIN_X11_FORCE_SOFTWARE_VSYNC = "1";
+  };
+
+  environment.variables = {
     EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   # Enable the Desktop Environment.
@@ -82,6 +71,8 @@
     desktopManager = {
       plasma5.enable = true;
     };
+
+    displayManager.sddm.enable = true;
     displayManager.defaultSession = "plasma";
   };
 
@@ -131,11 +122,12 @@
     firefox
     multimc
     jdk8
-    discord
     logmein-hamachi
     emacsGit
     git
   ];
+
+  programs.steam.enable = true;
 
   # Gaming with hamachi
   services.logmein-hamachi.enable = true;
